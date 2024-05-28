@@ -25,4 +25,5 @@ Contributions are welcome
 15. Integrating OpenAI to NodeJS application and creating chat completion route request.
 16. Sending API Request For Chat completion.
 17. Display Code Blocks in React App. npm i react-syntax-highlighter
-18. Deleting chats
+18. Deleting chats.
+19. Adding Protected Routes and Logout user request

@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, IconButton, Typography } from "@mui/material";
 import red from "@mui/material/colors/red";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import {
   getUserChats,
   sendChatRequest,
 } from "../helpers/api-communicator";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
   role: "user" | "assistant";
@@ -18,6 +19,7 @@ type Message = {
 const Chat = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const auth = useAuth();
+  const navigate = useNavigate();
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
   const handleSubmit = async () => {
@@ -56,6 +58,12 @@ const Chat = () => {
           console.log(err);
           toast.error("Loading Failed", { id: "loadchats" });
         });
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login");
     }
   }, [auth]);
 
@@ -98,7 +106,6 @@ const Chat = () => {
             }}
           >
             {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0]}
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to ChatBOT
