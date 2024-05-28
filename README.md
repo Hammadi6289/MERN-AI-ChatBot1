@@ -20,4 +20,9 @@ Contributions are welcome
 10. Setting Up Frontend. A React App With Vite and Typescript, Installing Dependencies, Importing Fonts.
 11. Adding Authentication Context Provider
 12. Adding Navigation Links To Header / Designing Login Screen UI.
-13. Creating and Sending API Request to backend. Login success
+13. Creating and Sending API Request to backend. Login success.
+14. Keeping the user logged in: Verify JWT Token Validity and Login the user.
+15. Integrating OpenAI to NodeJS application and creating chat completion route request.
+16. Sending API Request For Chat completion.
+17. Display Code Blocks in React App. npm i react-syntax-highlighter
+18. Deleting chats
