@@ -3,6 +3,22 @@ import User from "../models/User.js";
 import { configureOpenAI } from "../config/openai-config.js";
 import { ChatCompletionRequestMessage, OpenAIApi } from "openai";
 
+const retryRequest = async (
+  func: () => Promise<any>,
+  retries: number = 3,
+  delay: number = 1000
+): Promise<any> => {
+  try {
+    return await func();
+  } catch (error) {
+    if (retries <= 0 || error.response?.status !== 429) {
+      throw error;
+    }
+    await new Promise((res) => setTimeout(res, delay));
+    return retryRequest(func, retries - 1, delay * 2);
+  }
+};
+
 export const generateChatCompletion = async (
   req: Request,
   res: Response,
@@ -11,11 +27,13 @@ export const generateChatCompletion = async (
   const { message } = req.body;
   try {
     const user = await User.findById(res.locals.jwtData.id);
-    if (!user)
+    if (!user) {
       return res
         .status(401)
         .json({ message: "User not registered OR Token malfunctioned" });
-    // memorize chats of User
+    }
+
+    // Memorize chats of User
     const chats = user.chats.map(({ role, content }) => ({
       role,
       content,
@@ -23,20 +41,32 @@ export const generateChatCompletion = async (
     chats.push({ content: message, role: "user" });
     user.chats.push({ content: message, role: "user" });
 
-    // send all chats with new one to openAI API
+    // Send all chats with the new one to OpenAI API
     const config = configureOpenAI();
     const openai = new OpenAIApi(config);
-    //GET LATEST RESPONSE
-    const chatResponse = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: chats,
-    });
-    user.chats.push(chatResponse.data.choices[0].message);
-    await user.save();
-    return res.status(200).json({ chats: user.chats });
+
+    const chatResponse = await retryRequest(() =>
+      openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: chats,
+      })
+    );
+
+    if (chatResponse.data.choices && chatResponse.data.choices.length > 0) {
+      user.chats.push(chatResponse.data.choices[0].message);
+      await user.save();
+      return res.status(200).json({ chats: user.chats });
+    } else {
+      console.error("No choices returned from OpenAI API");
+      return res
+        .status(500)
+        .json({ message: "Failed to get a response from OpenAI" });
+    }
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: " Shit!!! Something went wrong" });
+    console.error("Error in generateChatCompletion:", error);
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 

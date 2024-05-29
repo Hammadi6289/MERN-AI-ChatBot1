@@ -8,6 +8,8 @@ It's a completely secure application using JWT Tokens, HTTP-Only Cookies, Signed
 
 Contributions are welcome
 
+### The error message {"message":"Something went wrong","error":"Request failed with status code 429"} indicates that you are receiving a 429 Too Many Requests error from the OpenAI API. This status code means that you have exceeded the rate limit for the API. Here are some steps to handle this issue: Rate Limiting: Implement a rate-limiting mechanism to ensure you don't exceed the API's rate limits.
+
 1. Setup Node, Express app with TypeScript.
 2. Integrate MongoDB Connection.
 3. Integrate OpenAI Connection.
@@ -26,4 +28,6 @@ Contributions are welcome
 16. Sending API Request For Chat completion.
 17. Display Code Blocks in React App. npm i react-syntax-highlighter
 18. Deleting chats.
-19. Adding Protected Routes and Logout user request
+19. Adding Protected Routes and Logout user request.
+20. Sign Up page.
+21. HomePage and Animation.
