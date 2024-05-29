@@ -26,8 +26,14 @@ Contributions are welcome
 14. Keeping the user logged in: Verify JWT Token Validity and Login the user.
 15. Integrating OpenAI to NodeJS application and creating chat completion route request.
 16. Sending API Request For Chat completion.
-17. Display Code Blocks in React App. npm i react-syntax-highlighter
-18. Deleting chats.
-19. Adding Protected Routes and Logout user request.
-20. Sign Up page.
-21. HomePage and Animation.
+17. ![chatScreen](https://github.com/Hammadi6289/MERN-AI-ChatBot1/assets/87120251/9de8b0fd-902a-44b4-bc99-90872ac04ca6)
+18. Display Code Blocks in React App. npm i react-syntax-highlighter
+19. Deleting chats.
+20. Adding Protected Routes and Logout user request.
+21. Sign Up page.
+22. ![signup](https://github.com/Hammadi6289/MERN-AI-ChatBot1/assets/87120251/67289a01-b97b-4e98-8d21-12c21b5c7734)
+23. HomePage and Animation.
+    ![Homepage](https://github.com/Hammadi6289/MERN-AI-ChatBot1/assets/87120251/19b568c6-2cf4-40f8-b1bf-e6180a903cb3)
+
+
+
